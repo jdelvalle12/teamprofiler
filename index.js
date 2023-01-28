@@ -2,7 +2,7 @@ const  inquirer = require('inquirer');
 const fs = require('fs');
 const employee = require('employee');
 
-const generateHTML = [name, ID, role, school, officeNumber,  ]
+const generateHTML = ({name, ID, role, school, officeNumber, github, email}) =>
 
 inquirer
     .prompt ([
@@ -38,14 +38,14 @@ inquirer
           },
           {
             type: 'input',
-            name: 'email address',
+            name: 'email',
             message: 'What is the employee email address?',
           },
       ])
     .then((answers) => {
-    const readMeContent = generateMarkdown(answers);
-    fs.writeFile('README.md', readMeContent, (err) =>
-    err ? console.log(err) : console.log('Successfully created README.md!')
+    const htmlPageContent = generateHTML(answers);
+    fs.writeFile('index.html', htmlPageContent, (err) =>
+    err ? console.log(err) : console.log('Successfully created index.html!')
   );
 });
 
