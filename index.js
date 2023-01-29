@@ -1,9 +1,9 @@
 const inquirer = require('inquirer');
 const fs = require('fs');
-const employee = require('./lib/employee');
-const manager = require('./lib/manager');
-const engineer = require('./lib/engineer');
-const intern = require('./lib/intern');
+const Employee = require('./lib/employee');
+const Manager = require('./lib/manager');
+const Engineer = require('./lib/engineer');
+const Intern = require('./lib/intern');
 
 const generateHTML = ({name, Id, role, school, officeNumber, github, email}) => {
 
@@ -33,8 +33,8 @@ const generateHTML = ({name, Id, role, school, officeNumber, github, email}) => 
           <div class="card">
           <h1 class="card-header" input="name">${name}</h1>
           <h3 input="role">${role}</h3>
-          <p input="id">${Id}</p>
-          <p input="office number">${officeNumber}</p>
+          <p input="id">Employee ID: ${Id}</p>
+          <p input="office number">Office Number: ${officeNumber}</p>
           </div>
           </div>
           </div>
@@ -46,9 +46,9 @@ const generateHTML = ({name, Id, role, school, officeNumber, github, email}) => 
           <div class="card">
           <h1 class="card-header" input="name">${name}</h1>
           <h3 input="role">${role}</h3>
-          <p input="id">${id}</p>
-          <p input="email">${email}</p>
-          <p input="github">${github}</p>
+          <p input="id">Employee ID: ${Id}</p>
+          <p input="email">Email Address: ${email}</p>
+          <p input="github">GitHub: ${github}</p>
           </div>
           </div>
           </div>
@@ -60,9 +60,9 @@ const generateHTML = ({name, Id, role, school, officeNumber, github, email}) => 
           <div class="card">
           <h1 class="card-header" input="name">${name}</h1>
           <h3 input="role">${role}</h3>
-          <p input="id">${id}</p>
-          <p input="email">${email}</p>
-          <p input="school">${school}</p>
+          <p input="id">Employee ID: ${Id}</p>
+          <p input="email">Email Address: ${email}</p>
+          <p input="school">School: ${school}</p>
           </div>
           </div>
           </div>
@@ -70,7 +70,7 @@ const generateHTML = ({name, Id, role, school, officeNumber, github, email}) => 
   </body>
   </html>`
 
-const manager = () => {
+manager = () => {
   return inquirer
     .prompt ([
           {
@@ -93,18 +93,73 @@ const manager = () => {
             name: 'office number',
             message: 'What is the manager office number?',
           },
-      ])
-    .then((answers) => {
-    const htmlPageContent = generateHTML(answers);
-    fs.writeFile('index.html', htmlPageContent, (err) =>
-    err ? console.log(err) : console.log('Successfully created index.html!')
+      ]);
+    };
+
+engineer = () => {
+   return inquirer
+        .prompt ([
+          {
+            type: 'input',
+            name: 'name',
+            message: 'What is the engineer name?',
+          },
+          {
+            type: 'input',
+            message: 'What is the engineer Id?',
+            name: 'Id',
+          },
+          {
+            type: 'input',
+            message: 'What is the employee role?',
+            name: 'role',
+          },
+          {
+            type: 'input',
+            name: 'email',
+            message: 'What is the engineer email?',
+          },
+          {
+            type: 'input',
+            name: 'github',
+            message: 'What is the engineer github username?'
+          },
+        ]);
+      };
+
+intern = () => {
+    return inquirer
+      .prompt ([
+          {
+            type: 'input',
+            name: 'name',
+            message: 'What is the manager name?',
+          },
+          {
+            type: 'input',
+            message: 'What is the manager Id?',
+            name: 'Id',
+          },
+          {
+            type: 'input',
+            message: 'What is the employee role?',
+            name: 'role',
+          },
+          {
+            type: 'input',
+            name: 'office number',
+            message: 'What is the manager office number?',
+          },
+       ])
+      .then((answers) => {
+        const htmlPageContent = generateHTML(answers);
+        fs.writeFile('index.html', htmlPageContent, (err) =>
+        err ? console.log(err) : console.log('Successfully created index.html!')
       );
     });
 
-  }
+  };
 };
-
-
 
 // TODO: Create a function to initialize app
 function init () {}
