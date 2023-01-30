@@ -70,8 +70,7 @@ const generateHTML = ({name, Id, role, school, officeNumber, github, email}) => 
   </body>
   </html>`
 
-manager = () => {
-  return inquirer
+inquirer
     .prompt ([
           {
             type: 'input',
@@ -96,8 +95,7 @@ manager = () => {
       ]);
     };
 
-engineer = () => {
-   return inquirer
+inquirer
         .prompt ([
           {
             type: 'input',
@@ -125,10 +123,9 @@ engineer = () => {
             message: 'What is the engineer github username?'
           },
         ]);
-      };
+      
 
-intern = () => {
-    return inquirer
+inquirer
       .prompt ([
           {
             type: 'input',
@@ -158,11 +155,7 @@ intern = () => {
       );
     });
 
-  };
-};
 
-// TODO: Create a function to initialize app
-function init () {}
+// // function to initialize app
+
   
-// Function call to initialize app
-init();

@@ -18,9 +18,16 @@ describe('Manager', () => {
     })
     describe('getEmail method', () => {
         it("should get the manager's email", () => {
-            const manager = new Manager('');
+            const manager = new Manager('jdelvalle88@live.com');
             // Verify that the new object has the correct property
-            expect(manager.email).toEqual('');
+            expect(manager.email).toEqual('jdelvalle88@live.com');
+        })
+    })
+    describe('getOfficeNumber method', () => {
+        it("should display manager's office number", () => {
+            const manager = new Manager('386');
+            // Verify that the new object has the correct property
+            expect(manager.officeNumber).toEqual('386');
         })
     })
     describe('getRole method', () => {
