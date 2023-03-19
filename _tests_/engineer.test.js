@@ -11,9 +11,9 @@ describe('Engineer', () => {
     })
     describe('getId method', () => {
         it("should get the engineer's Id", () => {
-            const engineer = new Engineer(092170);
+            const engineer = new Engineer(92170);
             // Verify that the new object has the correct property
-            expect(engineer.id).toEqual(092170)
+            expect(engineer.id).toEqual(92170)
         })
     })
     describe('getEmail method', () => {
