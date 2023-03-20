@@ -1,40 +1,44 @@
-const Employee = require('../lib/employee');
+// const Employee = require('../lib/employee');
 const Manager = require('../lib/manager'); 
 
 describe('Manager', () => {
+    let manager;
+    beforeEach(() =>{
+        manager = new Manager('Jose', 127843, 'jdelvalle88@live.com', '386');
+    });
     describe('getName method', () => {
         it("should get the manager's name", () => {
-            const manager = new Manager('Jose');
+            
             // Verify that the new object has the correct property
-            expect(manager.name).toEqual('Jose');           
+            expect(manager.getName()).toEqual('Jose');           
           })
     })
     describe('getId method', () => {
         it("should get the manager's Id", () => {
-            const manager = new Manager(127843);
+            
             // Verify that the new object has the correct property
-            expect(manager.id).toEqual(127843)
+            expect(manager.getId()).toEqual(127843)
         })
     })
     describe('getEmail method', () => {
         it("should get the manager's email", () => {
-            const manager = new Manager('jdelvalle88@live.com');
+            
             // Verify that the new object has the correct property
-            expect(manager.email).toEqual('jdelvalle88@live.com');
+            expect(manager.getEmail()).toEqual('jdelvalle88@live.com');
         })
     })
     describe('getOfficeNumber method', () => {
         it("should display manager's office number", () => {
-            const manager = new Manager('386');
+            
             // Verify that the new object has the correct property
-            expect(manager.officeNumber).toEqual('386');
+            expect(manager.getOfficeNumber()).toEqual('386');
         })
     })
     describe('getRole method', () => {
         it("should display manager's role", () => {
-            const manager = new Manager('manager');
+            
             // Verify that the new object has the correct property
-            expect(manager.role).toEqual('manager');
+            expect(manager.getRole()).toEqual('Manager');
         })
     })
 });

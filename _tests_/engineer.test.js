@@ -4,37 +4,37 @@ const Engineer = require('../lib/engineer');
 describe('Engineer', () => {
     describe('getName method', () => {
         it("should get the engineer's name", () => {
-            const engineer = new Engineer('Jose');
+            const engineer = new Engineer('Jose', 92170, 'jdelvalle88@live.com', 'jdelvalle12');
             // Verify that the new object has the correct property
-            expect(engineer.name).toEqual('Jose');           
-          })
-    })
+            expect(engineer.getName()).toEqual('Jose');           
+          });
+    });
     describe('getId method', () => {
         it("should get the engineer's Id", () => {
-            const engineer = new Engineer(92170);
+            const engineer = new Engineer('Jose', 92170, 'jdelvalle88@live.com', 'jdelvalle12');
             // Verify that the new object has the correct property
-            expect(engineer.id).toEqual(92170)
-        })
-    })
+            expect(engineer.getId()).toEqual(92170)
+        });
+    });
     describe('getEmail method', () => {
         it("should get the engineer's email", () => {
-            const engineer = new Engineer('jdelvalle88@live.com');
+            const engineer = new Engineer('Jose', 92170, 'jdelvalle88@live.com', 'jdelvalle12');
             // Verify that the new object has the correct property
-            expect(engineer.email).toEqual('jdelvalle88@live.com');
-        })
-    })
-    describe('getGitHub method', () => {
+            expect(engineer.getEmail()).toEqual('jdelvalle88@live.com');
+        });
+    });
+    describe('getGithub method', () => {
         it("should display engineer's GitHub username", () => {
-            const engineer = new Engineer('jdelvalle12');
+            const engineer = new Engineer('Jose', 92170, 'jdelvalle88@live.com', 'jdelvalle12');
             // Verify that the new object has the correct property
-            expect(engineer.github).toEqual('jdelvalle12');
-        })
-    })
+            expect(engineer.getGithub()).toEqual('jdelvalle12');
+        });
+    });
     describe('getRole method', () => {
         it("should display engineer's role", () => {
             const engineer = new Engineer('engineer');
             // Verify that the new object has the correct property
-            expect(engineer.role).toEqual('engineer');
-        })
-    })
+            expect(engineer.getRole()).toEqual('Engineer');
+        });
+    });
 });
