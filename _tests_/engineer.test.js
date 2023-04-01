@@ -1,4 +1,4 @@
-const Employee = require('../lib/employee');
+// const Employee = require('../lib/employee');
 const Engineer = require('../lib/engineer');
 
 describe('Engineer', () => {
@@ -27,7 +27,7 @@ describe('Engineer', () => {
         it("should display engineer's GitHub username", () => {
             const engineer = new Engineer('Jose', 92170, 'jdelvalle88@live.com', 'jdelvalle12');
             // Verify that the new object has the correct property
-            expect(engineer.getGithub()).toEqual('jdelvalle12');
+            expect(engineer.getGitHub()).toEqual('jdelvalle12');
         });
     });
     describe('getRole method', () => {
