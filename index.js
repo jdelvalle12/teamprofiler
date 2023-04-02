@@ -65,9 +65,10 @@ const promptManager = () => {
     const { name, id, email, officeNumber} = managerInfo;
     const manager = new Manager(name, id, email, officeNumber);
     teamMember.push(manager);
+    promptQuestions();
   });
 };
-promptManager();
+
 
 const promptQuestions = () => {
   return inquirer.prompt([
@@ -77,7 +78,7 @@ const promptQuestions = () => {
       message: 'What would you like to do?',
       choices: ['Engineer', 'Intern', 'Finish team building'],
     },
-}
+  ])
     .then((upNext) => {
       switch (upNext.question) {
         case 'Engineer':
@@ -109,7 +110,6 @@ const promptQuestions = () => {
               teamMember.push(engineer);
               promptQuestions();
             });
-          return;
         case 'Intern':
           inquirer.prompt([
             {
@@ -139,7 +139,6 @@ const promptQuestions = () => {
               teamMember.push(intern);
               promptQuestions();
             });
-          return;
         case 'Finish team building':
           console.log('team built successfully!');
           const teamHTML = generateHTML(teamMember);
@@ -157,7 +156,17 @@ const promptQuestions = () => {
           return;
             }
         });
-
+      };
+      promptManager()
+            .then(promptQuestions) 
+            .then(function(teamMember) {
+              return generateHTML(teamMember);
+            })
+            .then(function(HTML) {
+              return teamHTML(HTML);
+            })
+            .catch(function (err) {console.log(err)
+            });
     // {
     //   type: 'input',
     //   name: 'github',
@@ -188,34 +197,36 @@ const promptQuestions = () => {
     //     }
     //   }
     // }
-    .then((upNext) => {
-      switch (upNext.question) {
-        case 'Add Engineer':
-          promptEngineer();
-          return;
-          case 'Add Intern':
-            promptIntern();
-            return;
-          case 'Finish team building':
-            console.log('team built successfully!');
-            const teamHTML = generateHTML(teamMember);
-            fs.writeFile('./dist/index.html', teamHTML, (err) => {
-              if(err) {
-                console.log(err);
-              } else {
-                console.log('Team profile page has been created!');
-              }
-            });
-              return;
-            default:
-              console.log("Please select an option!");
-              promptQuestions();
-              return;
-        }
-    });
-};
+  
+    // .then((upNext) => {
+    //   switch (upNext.question) {
+    //     case 'Add Engineer':
+    //       promptEngineer();
+    //       return;
+    //       case 'Add Intern':
+    //         promptIntern();
+    //         return;
+    //       case 'Finish team building':
+    //         console.log('team built successfully!');
+    //         const teamHTML = generateHTML(teamMember);
+    //         fs.writeFile('./dist/index.html', teamHTML, (err) => {
+    //           if(err) {
+    //             console.log(err);
+    //           } else {
+    //             console.log('Team profile page has been created!');
+    //           }
+    //         });
+    //           return;
+    //         default:
+    //           console.log("Please select an option!");
+    //           promptQuestions();
+    //           return;
+    //           }
+    //         });
+    //       };
         
-promptQuestions();
+
+     
 
 // const promptEngineer = () => {
 //   return inquirer.prompt([
