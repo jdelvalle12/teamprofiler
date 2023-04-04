@@ -16,8 +16,8 @@ const promptManager = () => {
       type: 'input',
       name: 'name',
       message: 'What is the manager name?',
-      validate: (name) => {
-        if (name) {
+      validate: (input) => {
+        if (input) {
           return true;
         } else {
           console.log("Please input valid name");
@@ -28,8 +28,8 @@ const promptManager = () => {
       type: 'input',
       message: 'What is the manager ID?',
       name: 'id',
-      validate: (id) => {
-        if (id) {
+      validate: (input) => {
+        if (input) {
           return true;
         } else {
           console.log("Please input valid id");
@@ -40,8 +40,8 @@ const promptManager = () => {
       type: 'input',
       message: 'What is the manager email?',
       name: 'email',
-      validate: (email) => {
-        if (email) {
+      validate: (input) => {
+        if (input) {
           return true;
         } else {
           console.log("Please input valid email");
@@ -52,8 +52,8 @@ const promptManager = () => {
       type: 'input',
       name: 'officeNumber',
       message: 'What is the manager office number?',
-      validate: (officeNumber) => {
-        if (officeNumber) {
+      validate: (input) => {
+        if (input) {
           return true;
         } else {
           console.log("Please input valid office number");
@@ -76,69 +76,86 @@ const promptQuestions = () => {
       type: 'list',
       name: 'question',
       message: 'What would you like to do?',
-      choices: ['Engineer', 'Intern', 'Finish team building'],
+      choices: ['Engineer', 'Intern', 'Finish team building', 'EXIT'],
     },
+    {
+      type: 'input',
+      name: 'name',
+      message: "What is the team member's name?",
+      validate: (input) => {
+        if (input) {
+          return true;
+        } else {
+          console.log('Please input valid name');
+        }
+      },
+    },
+    {
+      type: 'input',
+      name: 'id',
+      message: "What is the team member's ID?",
+      validate: (input) => {
+        if (input) {
+          return true;
+        } else {
+          console.log('Please input valid ID');
+        }
+      },
+    },
+    {
+      type: 'input',
+      name: 'email',
+      message: "What is the team member's email?",
+      validate: (input) => {
+        if (input) {
+          return true;
+        } else {
+          console.log('Please input valid email');
+        }
+      },
+    },
+    {
+      type: 'input',
+      name: 'github',
+      message: 'Enter Github Username:',
+      when: function(answers) {
+        return answers.question === 'Engineer';
+      },
+      validate: function(value) {
+        if (value) {
+          return true;
+        } else {
+          console.log('Please input a valid value');
+        }
+      }
+    },
+    {
+      type: 'input',
+      name: 'school',
+      message: 'Enter School Name:',
+      when: function(answers) {
+        return answers.question === 'Intern';
+      },
+      validate: function(value) {
+        if (value) {
+          return true;
+        } else {
+          console.log('Please input a valid value');
+        }
+      }
+    }
   ])
-    .then((upNext) => {
-      switch (upNext.question) {
+    .then((teamMemberInfo) => {
+      const { name, id, email, github, school, question } = teamMemberInfo;
+      switch (question) {
         case 'Engineer':
-          inquirer.prompt([
-            {
-              type: 'input',
-              name: 'name',
-              message: 'What is the engineer name?',
-            },
-            {
-              type: 'input',
-              name: 'id',
-              message: 'What is the engineer ID?',
-            },
-            {
-              type: 'input',
-              name: 'email',
-              message: 'What is the engineer email?',
-            },
-            {
-              type: 'input',
-              name: 'github',
-              message: 'What is the engineer GitHub username?',
-            },
-          ])
-            .then((engineerInfo) => {
-              const { name, id, email, github } = engineerInfo;
-              const engineer = new Engineer(name, id, email, github);
-              teamMember.push(engineer);
-              promptQuestions();
-            });
+          const engineer = new Engineer(name, id, email, github);
+          teamMember.push(engineer);
+          break;
         case 'Intern':
-          inquirer.prompt([
-            {
-              type: 'input',
-              name: 'name',
-              message: 'What is the intern name?',
-            },
-            {
-              type: 'input',
-              name: 'id',
-              message: 'What is the intern ID?',
-            },
-            {
-              type: 'input',
-              name: 'email',
-              message: 'What is the intern email?',
-            },
-            {
-              type: 'input',
-              name: 'school',
-              message: 'What school is the intern attending?',
-            },
-          ])
-            .then((internInfo) => {
-              const { name, id, email, school } = internInfo;
-              const intern = new Intern(name, id, email, school);
-              teamMember.push(intern);
-              promptQuestions();
-            });
+          const intern = new Intern(name, id, email, school);
+          teamMember.push(intern);
+          break;
         case 'Finish team building':
           console.log('team built successfully!');
           const teamHTML = generateHTML(teamMember);
@@ -150,20 +167,23 @@ const promptQuestions = () => {
             }
           });
           return;
-        default:
-          console.log('Please select an option!');
-          promptQuestions();
+        case 'EXIT':
+          console.log('Goodbye!');
           return;
-            }
-        });
-      };
+        default:
+          console.log('Please select a valid option!');
+          break;
+      }
+      promptQuestions();
+    });
+};
       promptManager()
             .then(promptQuestions) 
             .then(function(teamMember) {
               return generateHTML(teamMember);
             })
-            .then(function(HTML) {
-              return teamHTML(HTML);
+            .then(function(teamHTML) {
+              return teamHTML;
             })
             .catch(function (err) {console.log(err)
             });
@@ -344,40 +364,40 @@ const promptQuestions = () => {
 //   });
 // };
 
-const init = async () => {
-  const teamMember = [];
+// const init = async () => {
+//   const teamMember = [];
 
-  // Prompt for manager
-  const managerAnswers = await promptManager();
-  const managerCard = generateHTML(managerAnswers);
-  teamMember.push(managerCard);
+//   // Prompt for manager
+//   const managerAnswers = await promptManager();
+//   const managerCard = generateHTML(managerAnswers);
+//   teamMember.push(managerCard);
 
-  // Prompt for engineers
-  const numEngineers = 2; // Example: prompt for two engineers
-  for (let i = 0; i < numEngineers; i++) {
-    const engineerAnswers = await promptEngineer();
-    const engineerCard = generateHTML (engineerAnswers);
-    teamMember.push(engineerCard);
-  }
+//   // Prompt for engineers
+//   const numEngineers = 2; // Example: prompt for two engineers
+//   for (let i = 0; i < numEngineers; i++) {
+//     const engineerAnswers = await promptEngineer();
+//     const engineerCard = generateHTML (engineerAnswers);
+//     teamMember.push(engineerCard);
+//   }
 
-  //Prompt for interns
-  const numInterns = 1; // Example: prompt for one intern
-  for (let i = 0; i < numInterns; i++) {
-    const internAnswers = await promptIntern();
-    const internCard = generateHTML(internAnswers);
-    teamMember.push(internCard);
-  }
+//   //Prompt for interns
+//   const numInterns = 1; // Example: prompt for one intern
+//   for (let i = 0; i < numInterns; i++) {
+//     const internAnswers = await promptIntern();
+//     const internCard = generateHTML(internAnswers);
+//     teamMember.push(internCard);
+//   }
 
-  // Generate HTML file
-  const teamHTML = generateHTML(teamMember);
-  fs.writeFile('./dist/index.html', teamHTML, (err) => {
-    if (err) {
-      console.log(err);
-    } else {
-      console.log('Team profile page has been created!');
-    }
-  });
-};
+//   // Generate HTML file
+//   const teamHTML = generateHTML(teamMember);
+//   fs.writeFile('./dist/index.html', teamHTML, (err) => {
+//     if (err) {
+//       console.log(err);
+//     } else {
+//       console.log('Team profile page has been created!');
+//     }
+//   });
+// };
 
-init();
+// init();
   

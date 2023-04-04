@@ -10,7 +10,7 @@ const teamHTML = (generatedCards) => {
             <link rel="preconnect" href="https://fonts.googleapis.com">
             <link rel="preconnect" href="https://fonts.gstatic.com">
             <link href="https://fonts.googleapis.com/css2?family=Merriweather&family=Oxygen&display=swap" rel="stylesheet">
-            <link rel="stylesheet" href="./dist/style.css" />
+            <link rel="stylesheet" href="./style.css" />
             <title>Team Players</title>
         </head>
         <body>
@@ -79,6 +79,9 @@ const generateIntern = (intern) => {
 };
 
 const generateHTML = (employees) => {
+  if(!employees) {
+    return '';
+  }
     const generatedCards = employees.map(employee => {
       switch(employee.role) {
         case 'Manager':
