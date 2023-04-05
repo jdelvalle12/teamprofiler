@@ -8,66 +8,66 @@ const Intern = require('./lib/intern');
 
 const generateHTML = require('./src/generateHTML');
 
-const teamMember = [];
+const employee = [];
 
-const promptManager = () => {
-  return inquirer.prompt([
-    {
-      type: 'input',
-      name: 'name',
-      message: 'What is the manager name?',
-      validate: (input) => {
-        if (input) {
-          return true;
-        } else {
-          console.log("Please input valid name");
-        }
-      },
-    },
-    {
-      type: 'input',
-      message: 'What is the manager ID?',
-      name: 'id',
-      validate: (input) => {
-        if (input) {
-          return true;
-        } else {
-          console.log("Please input valid id");
-        }
-      },
-    },
-    {
-      type: 'input',
-      message: 'What is the manager email?',
-      name: 'email',
-      validate: (input) => {
-        if (input) {
-          return true;
-        } else {
-          console.log("Please input valid email");
-        }
-      },
-    },
-    {
-      type: 'input',
-      name: 'officeNumber',
-      message: 'What is the manager office number?',
-      validate: (input) => {
-        if (input) {
-          return true;
-        } else {
-          console.log("Please input valid office number");
-        }
-      },
-    },
-  ])
-  .then((managerInfo) => {
-    const { name, id, email, officeNumber} = managerInfo;
-    const manager = new Manager(name, id, email, officeNumber);
-    teamMember.push(manager);
-    promptQuestions();
-  });
-};
+// const promptManager = () => {
+//   return inquirer.prompt([
+//     {
+//       type: 'input',
+//       name: 'name',
+//       message: 'What is the manager name?',
+//       validate: (input) => {
+//         if (input) {
+//           return true;
+//         } else {
+//           console.log("Please input valid name");
+//         }
+//       },
+//     },
+//     {
+//       type: 'input',
+//       message: 'What is the manager ID?',
+//       name: 'id',
+//       validate: (input) => {
+//         if (input) {
+//           return true;
+//         } else {
+//           console.log("Please input valid id");
+//         }
+//       },
+//     },
+//     {
+//       type: 'input',
+//       message: 'What is the manager email?',
+//       name: 'email',
+//       validate: (input) => {
+//         if (input) {
+//           return true;
+//         } else {
+//           console.log("Please input valid email");
+//         }
+//       },
+//     },
+//     {
+//       type: 'input',
+//       name: 'officeNumber',
+//       message: 'What is the manager office number?',
+//       validate: (input) => {
+//         if (input) {
+//           return true;
+//         } else {
+//           console.log("Please input valid office number");
+//         }
+//       },
+//     },
+//   ])
+//   .then((managerInfo) => {
+//     const { name, id, email, officeNumber} = managerInfo;
+//     const manager = new Manager(name, id, email, officeNumber);
+//     employee.push(manager);
+//     promptQuestions();
+//   });
+// };
 
 
 const promptQuestions = () => {
@@ -76,7 +76,7 @@ const promptQuestions = () => {
       type: 'list',
       name: 'question',
       message: 'What would you like to do?',
-      choices: ['Engineer', 'Intern', 'Finish team building', 'EXIT'],
+      choices: ['Manager', 'Engineer', 'Intern', 'Finish team building', 'EXIT'],
     },
     {
       type: 'input',
@@ -116,6 +116,21 @@ const promptQuestions = () => {
     },
     {
       type: 'input',
+      name: 'officeNumber',
+      message: 'Enter Office Number:',
+      when: function(answers) {
+        return answers.question === 'Manager';
+      },
+      validate: function(value) {
+        if (value) {
+          return true;
+        } else {
+          console.log('Please input a valid value');
+        }
+      }
+    },
+    {
+      type: 'input',
       name: 'github',
       message: 'Enter Github Username:',
       when: function(answers) {
@@ -145,27 +160,31 @@ const promptQuestions = () => {
       }
     }
   ])
-    .then((teamMemberInfo) => {
-      const { name, id, email, github, school, question } = teamMemberInfo;
+    .then((employeeInfo) => {
+      const { name, id, email, officeNumber, github, school, question } = employeeInfo;
       switch (question) {
+        case 'Manager':
+          const manager = new Manager(name, id, email, officeNumber);
+          employee.push(manager);
+          break;
         case 'Engineer':
           const engineer = new Engineer(name, id, email, github);
-          teamMember.push(engineer);
+          employee.push(engineer);
           break;
         case 'Intern':
           const intern = new Intern(name, id, email, school);
-          teamMember.push(intern);
+          employee.push(intern);
           break;
         case 'Finish team building':
           console.log('team built successfully!');
-          const teamHTML = generateHTML(teamMember);
-          fs.writeFile('./dist/index.html', teamHTML, (err) => {
-            if (err) {
-              console.log(err);
-            } else {
-              console.log('Team profile page has been created!');
-            }
-          });
+          // const teamHTML = generateHTML(employee);
+          // fs.writeFile('./dist/index.html', teamHTML, (err) => {
+          //   if (err) {
+          //     console.log(err);
+          //   } else {
+          //     console.log('Team profile page has been created!');
+          //   }
+          // });
           return;
         case 'EXIT':
           console.log('Goodbye!');
@@ -174,19 +193,41 @@ const promptQuestions = () => {
           console.log('Please select a valid option!');
           break;
       }
-      promptQuestions();
+      return promptQuestions();
     });
 };
-      promptManager()
-            .then(promptQuestions) 
-            .then(function(teamMember) {
-              return generateHTML(teamMember);
-            })
-            .then(function(teamHTML) {
-              return teamHTML;
-            })
-            .catch(function (err) {console.log(err)
-            });
+
+function writeToFile(data) {
+  fs.writeFile('./dist/index.html', data, (err) => {
+    if (err) {
+      console.log(err);
+    } else {
+      console.log('Team profile page has been created!');
+    }
+  });
+}
+
+function start() {
+  promptQuestions().then((data) => {
+    const employee = generateHTML(data);
+    writeToFile(employee);
+    // send teamHTML to the browser here
+  });
+}
+
+start();
+
+      // promptManager()
+      //       .then(promptQuestions) 
+      //       .then(function(employee) {
+      //         return generateHTML(employee);
+      //       })
+      //       .then(function(teamHTML) {
+      //         return teamHTML;
+      //       })
+      //       .catch(function (err) {console.log(err)
+      //       });
+
     // {
     //   type: 'input',
     //   name: 'github',

@@ -2,34 +2,38 @@
 const teamHTML = (generatedCards) => {
     return `<!DOCTYPE html>
     <html lang="en">
-        <head>
-            <meta charset="UTF-8">
-            <meta http-equiv="X-UA-Compatible" content="IE=edge">
-            <meta name="viewport" content="width=device-width, initial-scale=1.0">
-            <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.2.3/dist/css/bootstrap.min.css" rel="stylesheet"/>
-            <link rel="preconnect" href="https://fonts.googleapis.com">
-            <link rel="preconnect" href="https://fonts.gstatic.com">
-            <link href="https://fonts.googleapis.com/css2?family=Merriweather&family=Oxygen&display=swap" rel="stylesheet">
-            <link rel="stylesheet" href="./style.css" />
-            <title>Team Players</title>
-        </head>
-        <body>
+      <head>
+        <meta charset="UTF-8" />
+        <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+        <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+        <link
+          href="https://cdn.jsdelivr.net/npm/bootstrap@5.2.3/dist/css/bootstrap.min.css"
+          rel="stylesheet"
+        />
+        <link rel="preconnect" href="https://fonts.googleapis.com" />
+        <link rel="preconnect" href="https://fonts.gstatic.com" />
+        <link
+          href="https://fonts.googleapis.com/css2?family=Merriweather&family=Oxygen&display=swap"
+          rel="stylesheet"
+        />
+        <link rel="stylesheet" href="./style.css" />
+        <title>Team Players</title>
+      </head>
+      <body>
         <header class="background-color-red text-align-center text-white">
-          <div id="header">  
+          <div id="header">
             <a href="index.html" class="logo">Team Players</a>
           </div>
         </header>
         <section class="container background-color-blue text-align-center text-white">
-        <div class="manager">
-          <div class="col-12 col-md-4">
-            <div class="card">
-              ${generatedCards}
+            <div class="col-12 col-md-4">
+              <div class="card">
+                ${generatedCards}
+              </div>
             </div>
-          </div>
-        </div>
-      </section>
-    </body>
-</html>`;
+        </section>
+      </body>
+    </html>`;
 };
 
 const generateManager = (manager) => {
@@ -78,18 +82,18 @@ const generateIntern = (intern) => {
   </section>`;
 };
 
-const generateHTML = (employees) => {
-  if(!employees) {
+const generateHTML = (data) => {
+  if(!data) {
     return '';
   }
-    const generatedCards = employees.map(employee => {
-      switch(employee.role) {
+    const generatedCards = data.map(data => {
+      switch(data.role) {
         case 'Manager':
-          return generateManager(employee);
+          return generateManager(data);
         case 'Engineer':
-          return generateEngineer(employee);
+          return generateEngineer(data);
         case 'Intern':
-          return generateIntern(employee);
+          return generateIntern(data);
         default:
           return '';
       }
