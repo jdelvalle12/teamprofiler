@@ -205,15 +205,15 @@ function writeToFile(data) {
       console.log('Team profile page has been created!');
     }
   });
-}
+};
 
 function start() {
   promptQuestions().then((data) => {
-    const employee = generateHTML(data);
-    writeToFile(employee);
+    const htmlData = generateHTML(employee);
+    writeToFile(htmlData);
     // send teamHTML to the browser here
   });
-}
+};
 
 start();
 

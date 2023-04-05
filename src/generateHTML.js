@@ -20,24 +20,22 @@ const teamHTML = (generatedCards) => {
         <title>Team Players</title>
       </head>
       <body>
-        <header class="background-color-red text-align-center text-white">
+        <header class="background-color-red text-align-center text-black">
           <div id="header">
             <a href="index.html" class="logo">Team Players</a>
           </div>
         </header>
-        <section class="container background-color-blue text-align-center text-white">
-            <div class="col-12 col-md-4">
-              <div class="card">
+        <section class="container background-color-blue text-align-center text-black">
+            
                 ${generatedCards}
-              </div>
-            </div>
+             
         </section>
       </body>
     </html>`;
 };
 
 const generateManager = (manager) => {
-    return `<section class="container background-color-blue text-align-center text-white">
+    return `<section class="container background-color-blue text-align-center text-black">
     <div class="manager">
       <div class="col-12 col-md-4">
         <div class="card">
@@ -53,7 +51,7 @@ const generateManager = (manager) => {
 
 const generateEngineer = (engineer) => {
 
-    return `<section class="container background-color-blue text-align-center text-white">
+    return `<section class="container background-color-blue text-align-center text-black">
             <div class="engineer">
               <div class="col-12 col-md-4">
                 <div class="card">
@@ -68,7 +66,7 @@ const generateEngineer = (engineer) => {
     };
 
 const generateIntern = (intern) => {
-    return `<section class="container background-color-blue text-align-center text-white">
+    return `<section class="container background-color-blue text-align-center text-black">
       <div class="intern">
         <div class="col-12 col-md-4">
           <div class="card">
@@ -83,11 +81,12 @@ const generateIntern = (intern) => {
 };
 
 const generateHTML = (data) => {
+ 
   if(!data) {
     return '';
   }
     const generatedCards = data.map(data => {
-      switch(data.role) {
+      switch(data.getRole()) {
         case 'Manager':
           return generateManager(data);
         case 'Engineer':
